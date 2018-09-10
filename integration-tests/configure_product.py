@@ -183,15 +183,11 @@ def modify_datasources():
                     validation_query = configuration.find('validationQuery')
                     drive_class_name = configuration.find('driverClassName')
                     default_auto_commit = configuration.find('defaultAutoCommit')
-                    if default_auto_commit is None:
-                        def_auto_commit = ET.SubElement(configuration, 'defaultAutoCommit')
-                        def_auto_commit.text = 'true'
-                    else:
-                        if not database_name == 'WSO2_MB_STORE_DB':
-                            default_auto_commit.text = 'true'
+                    if default_auto_commit is not None:
+                        default_auto_commit.text = 'true'
                     if MYSQL_DB_ENGINE == database_config['db_engine'].upper():
                         url.text = url.text.replace(url.text, database_config[
-                            'url'] + "/" + database_name + "?autoReconnect=true&useSSL=false&requireSSL=false&"
+                            'url'] + "/" + database_name + "?autoCommit=true&autoReconnect=true&useSSL=false&requireSSL=false&"
                                                      "verifyServerCertificate=false")
                         user.text = user.text.replace(user.text, database_config['user'])
                     elif ORACLE_DB_ENGINE == database_config['db_engine'].upper():
